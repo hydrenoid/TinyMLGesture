@@ -1,6 +1,7 @@
 from mpu6050 import mpu6050
 import time
 import csv
+import keyboard
 
 mpu = mpu6050(0x68)
 
@@ -41,7 +42,9 @@ def collect_data():
 
                     writer.writerow([Ax, Ay, Az, Gx, Gy, Gz, gesture_label])
                     time.sleep(0.1)  # Adjust this based on your desired sampling rate
-                    if input() == '':
+
+                    if keyboard.is_pressed('enter'):  # Check if Enter is pressed
+                        print("Stopping recording...")
                         break
 
 
