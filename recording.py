@@ -13,35 +13,36 @@ gesture_data = []
 gestures = ['wave', 'gritty', 'forehand-tennis', 'backhand-tennis', 'handshake']
 target_duration = 1 / 90
 
-def make_fig(recording):
-    if recording:
-        plt.ylim(-20, 20)  # Set the y-axis limits
-        plt.title('Real-Time Accelerometer Data')
-        plt.grid(True)
-        plt.ylabel('Acceleration')
-        plt.plot(accel_x, 'r--', label='X-axis')
-        plt.plot(accel_y, 'g--', label='Y-axis')
-        plt.plot(accel_z, 'b--', label='Z-axis')
-        plt.legend(loc='upper left')
-    else:
-        plt.ylim(-20, 20)  # Set the y-axis limits
-        plt.title('Real-Time Accelerometer Data')
-        plt.grid(True)
-        plt.ylabel('Acceleration')
-        plt.plot(accel_x, 'r-', label='X-axis')
-        plt.plot(accel_y, 'g-', label='Y-axis')
-        plt.plot(accel_z, 'b-', label='Z-axis')
-        plt.legend(loc='upper left')
+
+def make_fig():
+    plt.ylim(-20, 20)  # Set the y-axis limits
+    plt.title('Real-Time Accelerometer Data')
+    plt.grid(True)
+    plt.ylabel('Acceleration')
+    plt.plot(accel_x, 'r-', label='X-axis')
+    plt.plot(accel_y, 'g-', label='Y-axis')
+    plt.plot(accel_z, 'b-', label='Z-axis')
+    plt.legend(loc='upper left')
+
+
+def make_fig_recorded():
+    plt.ylim(-20, 20)  # Set the y-axis limits
+    plt.title('Real-Time Accelerometer Data')
+    plt.grid(True)
+    plt.ylabel('Acceleration')
+    plt.plot(accel_x, 'r--', label='X-axis')
+    plt.plot(accel_y, 'g--', label='Y-axis')
+    plt.plot(accel_z, 'b--', label='Z-axis')
+    plt.legend(loc='upper left')
+
 
 def main():
     # Ask user for their name to create a file name
     user_name = input("Enter your name for the file name: ")
 
-
     # Check if the user would like to start
     if input("Would you like to start? (yes/no) ").lower() == 'yes':
         # Begin displaying live data here (Placeholder for actual data display logic)
-        
 
         # Iterate recording for each gesture
         for gesture in gestures:
@@ -52,7 +53,7 @@ def main():
                 print("Press enter to begin recording the gesture.")
                 test_counter = 0
                 while True:
-                    
+
                     start_time = time.time()
 
                     accel_data = mpu.get_accel_data()
@@ -64,7 +65,7 @@ def main():
 
                     # Update the plot
                     drawnow(make_fig)
-                    
+
                     # Limit the size of the lists to prevent memory issues
                     if len(accel_x) > 50:
                         del accel_x[0]
@@ -81,17 +82,16 @@ def main():
 
                     if sleep_time > 0:
                         time.sleep(sleep_time)  # Sleep to maintain approximately 90 Hz frequency
-                        
+
                     test_counter = test_counter + 1
-                    
 
                 # Countdown from 3 before starting recording
                 for i in range(3, 0, -1):
                     print(i)
                     time.sleep(1)
-                
+
                 print('GOOO!!!')
-                
+
                 # After recording, check if button is hit to signal that the gesture is done
                 print("Press 'enter' to indicate the gesture is done.")
                 test_counter = 0
@@ -113,7 +113,7 @@ def main():
                     accel_z.append(accel_data['z'])
 
                     # Update the plot
-                    drawnow(make_fig)
+                    drawnow(make_fig_recorded)
 
                     # Limit the size of the lists to prevent memory issues
                     if len(accel_x) > 50:
@@ -127,7 +127,7 @@ def main():
                         while keyboard.is_pressed('enter'):
                             time.sleep(0.1)
 
-                        break  
+                        break
                     elif test_counter > 600:
                         break
 
@@ -137,18 +137,17 @@ def main():
                     if sleep_time > 0:
                         time.sleep(sleep_time)  # Sleep to maintain approximately 90 Hz frequency
 
-                    
                     test_counter = test_counter + 1
 
                 # Stop recording and save data to file (Placeholder for actual save logic)
                 try:
                     file_name = user_name + '_' + gesture + str(count) + '_data.csv'
-                    with open(file_name , 'w') as file:
+                    with open(file_name, 'w') as file:
                         writer = csv.writer(file)
                         writer.writerow(["x", "y", "z", 'mag', gesture])
                         for item in gesture_data:
                             writer.writerow(item)
-                        
+
                 except Exception as e:
                     print(f"An error occurred: {e}")
 
@@ -156,9 +155,9 @@ def main():
         # User chose not to start, so we close the file and stop displaying data
         print("Exiting the program.")
 
-
     # The program reaches the end
     print("Program has ended. Goodbye!")
+
 
 # Run the program
 if __name__ == "__main__":
