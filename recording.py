@@ -8,7 +8,7 @@ import math
 
 mpu = mpu6050(0x68)
 
-accel_x, accel_y, accel_z = [], [], []
+accel_x, accel_y, accel_z, accel_mag = [], [], [], []
 gesture_data = []
 gestures = ['wave', 'gritty', 'forehand-tennis', 'backhand-tennis', 'handshake']
 target_duration = 1 / 90
@@ -22,6 +22,7 @@ def make_fig():
     plt.plot(accel_x, 'r--', label='X-axis')
     plt.plot(accel_y, 'g--', label='Y-axis')
     plt.plot(accel_z, 'b--', label='Z-axis')
+    plt.plot(accel_mag, 'c-', label='mag')
     plt.legend(loc='upper left')
 
 
@@ -33,6 +34,7 @@ def make_fig_recorded():
     plt.plot(accel_x, 'r-', label='X-axis')
     plt.plot(accel_y, 'g-', label='Y-axis')
     plt.plot(accel_z, 'b-', label='Z-axis')
+    plt.plot(accel_mag, 'c-', label='magnitude')
     plt.legend(loc='upper left')
 
 
@@ -64,6 +66,12 @@ def main():
                     accel_y.append(accel_data['y'])
                     accel_z.append(accel_data['z'])
 
+                    x = accel_data['x']
+                    y = accel_data['y']
+                    z = accel_data['z']
+                    mag = math.sqrt((x * x) + (y * y) + (z * z))
+                    accel_mag.append(mag)
+
                     # Update the plot
                     drawnow(make_fig)
 
@@ -72,6 +80,7 @@ def main():
                         del accel_x[0]
                         del accel_y[0]
                         del accel_z[0]
+                        del accel_mag[0]
 
                     if keyboard.is_pressed('enter'):
                         break
@@ -96,6 +105,11 @@ def main():
                 # After recording, check if button is hit to signal that the gesture is done
                 print("Press 'enter' to indicate the gesture is done.")
                 test_counter = 0
+
+                accel_x.clear()
+                accel_y.clear()
+                accel_y.clear()
+                accel_mag.clear()
                 while True:
                     start_time = time.time()
 
@@ -106,12 +120,14 @@ def main():
                     z = accel_data['z']
                     mag = math.sqrt((x * x) + (y * y) + (z * z))
 
+
                     gesture_data.append([x, y, z, mag, gesture])
 
                     # Append new data to the lists
                     accel_x.append(accel_data['x'])
                     accel_y.append(accel_data['y'])
                     accel_z.append(accel_data['z'])
+                    accel_mag(mag)
 
                     # Update the plot
                     drawnow(make_fig_recorded)
@@ -121,6 +137,7 @@ def main():
                         del accel_x[0]
                         del accel_y[0]
                         del accel_z[0]
+                        del accel_mag[0]
 
                     if keyboard.is_pressed('enter'):  # Check if Enter is pressed
                         print("Stopping recording...")
