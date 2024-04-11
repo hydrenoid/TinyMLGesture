@@ -19,9 +19,9 @@ def make_fig():
     plt.title('Real-Time Accelerometer Data')
     plt.grid(True)
     plt.ylabel('Acceleration')
-    plt.plot(accel_x, 'r-', label='X-axis')
-    plt.plot(accel_y, 'g-', label='Y-axis')
-    plt.plot(accel_z, 'b-', label='Z-axis')
+    plt.plot(accel_x, 'r--', label='X-axis')
+    plt.plot(accel_y, 'g--', label='Y-axis')
+    plt.plot(accel_z, 'b--', label='Z-axis')
     plt.legend(loc='upper left')
 
 
@@ -30,10 +30,11 @@ def make_fig_recorded():
     plt.title('Real-Time Accelerometer Data')
     plt.grid(True)
     plt.ylabel('Acceleration')
-    plt.plot(accel_x, 'r--', label='X-axis')
-    plt.plot(accel_y, 'g--', label='Y-axis')
-    plt.plot(accel_z, 'b--', label='Z-axis')
+    plt.plot(accel_x, 'r-', label='X-axis')
+    plt.plot(accel_y, 'g-', label='Y-axis')
+    plt.plot(accel_z, 'b-', label='Z-axis')
     plt.legend(loc='upper left')
+
 
 
 def main():
