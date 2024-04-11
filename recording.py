@@ -10,7 +10,7 @@ mpu = mpu6050(0x68)
 
 accel_x, accel_y, accel_z, accel_mag = [], [], [], []
 gesture_data = []
-gestures = ['wave', 'gritty', 'forehand-tennis', 'backhand-tennis', 'handshake']
+gestures = ['point', 'raise-hand', 'forehand-tennis', 'backhand-tennis', 'rps']
 target_duration = 1 / 90
 
 
@@ -116,14 +116,13 @@ def main():
                     z = accel_data['z']
                     mag = math.sqrt((x * x) + (y * y) + (z * z))
 
-
                     gesture_data.append([x, y, z, mag, gesture])
 
                     # Append new data to the lists
                     accel_x.append(accel_data['x'])
                     accel_y.append(accel_data['y'])
                     accel_z.append(accel_data['z'])
-                    accel_mag(mag)
+                    accel_mag.append(mag)
 
                     # Update the plot
                     drawnow(make_fig_recorded)
@@ -161,6 +160,7 @@ def main():
                         writer.writerow(["x", "y", "z", 'mag', gesture])
                         for item in gesture_data:
                             writer.writerow(item)
+                        gesture_data.clear()
 
                 except Exception as e:
                     print(f"An error occurred: {e}")
