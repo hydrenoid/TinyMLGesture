@@ -13,15 +13,25 @@ gesture_data = []
 gestures = ['wave', 'gritty', 'forehand-tennis', 'backhand-tennis', 'handshake']
 target_duration = 1 / 90
 
-def make_fig():
-    plt.ylim(-20, 20)  # Set the y-axis limits
-    plt.title('Real-Time Accelerometer Data')
-    plt.grid(True)
-    plt.ylabel('Acceleration')
-    plt.plot(accel_x, 'r-', label='X-axis')
-    plt.plot(accel_y, 'g-', label='Y-axis')
-    plt.plot(accel_z, 'b-', label='Z-axis')
-    plt.legend(loc='upper left')
+def make_fig(recording):
+    if recording:
+        plt.ylim(-20, 20)  # Set the y-axis limits
+        plt.title('Real-Time Accelerometer Data')
+        plt.grid(True)
+        plt.ylabel('Acceleration')
+        plt.plot(accel_x, 'r--', label='X-axis')
+        plt.plot(accel_y, 'g--', label='Y-axis')
+        plt.plot(accel_z, 'b--', label='Z-axis')
+        plt.legend(loc='upper left')
+    else:
+        plt.ylim(-20, 20)  # Set the y-axis limits
+        plt.title('Real-Time Accelerometer Data')
+        plt.grid(True)
+        plt.ylabel('Acceleration')
+        plt.plot(accel_x, 'r-', label='X-axis')
+        plt.plot(accel_y, 'g-', label='Y-axis')
+        plt.plot(accel_z, 'b-', label='Z-axis')
+        plt.legend(loc='upper left')
 
 def main():
     # Ask user for their name to create a file name
@@ -80,7 +90,7 @@ def main():
                     print(i)
                     time.sleep(1)
                 
-                print('GOOO!!!)
+                print('GOOO!!!')
                 
                 # After recording, check if button is hit to signal that the gesture is done
                 print("Press 'enter' to indicate the gesture is done.")
@@ -89,11 +99,6 @@ def main():
                     start_time = time.time()
 
                     accel_data = mpu.get_accel_data()
-                    print("Acc X : " + str(accel_data['x']))
-                    print("Acc Y : " + str(accel_data['y']))
-                    print("Acc Z : " + str(accel_data['z']))
-                    print()
-                    print("-------------------------------")
 
                     x = accel_data['x']
                     y = accel_data['y']
@@ -131,8 +136,7 @@ def main():
 
                     if sleep_time > 0:
                         time.sleep(sleep_time)  # Sleep to maintain approximately 90 Hz frequency
-                    else:
-                        print("Warning: Loop iteration took longer than target duration")
+
                     
                     test_counter = test_counter + 1
 
