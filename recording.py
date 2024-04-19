@@ -10,7 +10,7 @@ mpu = mpu6050(0x68)
 
 accel_x, accel_y, accel_z, accel_mag = [], [], [], []
 gesture_data = []
-gestures = ['point', 'raise-hand', 'forehand-tennis', 'backhand-tennis', 'rps']
+gestures = ['point', 'raise-hand', 'hand-shake', 'hair-swipe', 'rps']
 target_duration = 1 / 90
 
 
@@ -154,7 +154,7 @@ def main():
 
                 # Stop recording and save data to file (Placeholder for actual save logic)
                 try:
-                    file_name = user_name + '_' + gesture + str(count) + '_data.csv'
+                    file_name = gesture + '_' + user_name + str(count) + '_data.csv'
                     with open(file_name, 'w') as file:
                         writer = csv.writer(file)
                         writer.writerow(["x", "y", "z", 'mag', gesture])
