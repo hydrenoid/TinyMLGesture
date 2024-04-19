@@ -7,10 +7,11 @@ from drawnow import drawnow
 import math
 
 mpu = mpu6050(0x68)
+NUM_GESTURES = 10
 
 accel_x, accel_y, accel_z, accel_mag = [], [], [], []
 gesture_data = []
-gestures = ['point', 'raise-hand', 'hand-shake', 'hair-swipe', 'rps']
+gestures = ['point', 'raise-hand', 'dab', 'hair-swipe', 'rps']
 target_duration = 1 / 90
 
 
@@ -49,10 +50,10 @@ def main():
 
         # Iterate recording for each gesture
         for gesture in gestures:
-            for count in range(5):
+            for count in range(NUM_GESTURES):
                 # Display data and prompt user to hit button to begin recording
                 print('The current gesture is: ' + str(gesture) + '.')
-                print('You have ' + str((5 - count)) + ' entries left.')
+                print('You have ' + str((NUM_GESTURES - count)) + ' entries left.')
                 print("Press enter to begin recording the gesture.")
                 test_counter = 0
                 while True:
@@ -84,8 +85,7 @@ def main():
 
                     if keyboard.is_pressed('enter'):
                         break
-                    elif test_counter > 600:
-                        break
+                    
 
                     elapsed = time.time() - start_time  # Calculate elapsed time
                     sleep_time = target_duration - elapsed
@@ -115,6 +115,7 @@ def main():
                     y = accel_data['y']
                     z = accel_data['z']
                     mag = math.sqrt((x * x) + (y * y) + (z * z))
+
 
                     gesture_data.append([x, y, z, mag, gesture])
 
@@ -154,13 +155,12 @@ def main():
 
                 # Stop recording and save data to file (Placeholder for actual save logic)
                 try:
-                    file_name = gesture + '_' + user_name + str(count) + '_data.csv'
+                    file_name = gesture + '_' + user_name + '_' + str(count) + '_data.csv'
                     with open(file_name, 'w') as file:
                         writer = csv.writer(file)
                         writer.writerow(["x", "y", "z", 'mag', gesture])
                         for item in gesture_data:
                             writer.writerow(item)
-                        gesture_data.clear()
 
                 except Exception as e:
                     print(f"An error occurred: {e}")
