@@ -25,7 +25,7 @@ target_duration = 1 / 90
 
 def extract_features(df):
     features = {}
-    for axis in ['x', 'y', 'z']:
+    for axis in ['x', 'y', 'z', 'mag']:
         features[f'{axis}_mean'] = df[axis].mean()
         features[f'{axis}_std'] = df[axis].std()
         features[f'{axis}_max'] = df[axis].max()

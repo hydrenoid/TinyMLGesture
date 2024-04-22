@@ -161,6 +161,7 @@ def main():
                         writer.writerow(["x", "y", "z", 'mag', gesture])
                         for item in gesture_data:
                             writer.writerow(item)
+                    gesture_data.clear()
 
                 except Exception as e:
                     print(f"An error occurred: {e}")
