@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 
-# Example: loading one trial data, you would loop or function this for all trials
+# Function that takes in a file path for a trial and returns the calculated features
 def load_trial_data(file_path):
     df = pd.read_csv(file_path)
     features = {}
@@ -23,57 +23,58 @@ def load_trial_data(file_path):
         # Add more features as needed
     return features
 
-#------------------------------------------------------------------
+
+# ------------------------------------------------------------------
 # Lets look at some of the data
-# Example: Load data for each trial (adjust paths and loading logic to your data structure)
-gesture_name = 'point'
-num_trials = 10  # Adjust based on how many trials you have for this gesture
-trials_data = [pd.read_csv(f'data/Johnny/{gesture_name}_Johnny_{i}_data.csv') for i in range(0, num_trials)]
+# Load data for each trial and plot them overlaying
+gestures = ['point', 'raise-hand', 'dab', 'hair-swipe', 'rps']
+for gesture in gestures:
+    num_trials = 10  # Adjust based on how many trials you have for this gesture
+    trials_data = [pd.read_csv(f'data/Johnny/{gesture}_Johnny_{i}_data.csv') for i in range(0, num_trials)]
 
-# Initialize a plot
-plt.figure(figsize=(14, 8))
+    # Initialize a plot
+    plt.figure(figsize=(14, 8))
 
-# Assuming that each DataFrame `df` in `trials_data` has columns 'x', 'y', 'z'
-for i, df in enumerate(trials_data, start=1):
+    # Plot each trial
+    for i, df in enumerate(trials_data, start=1):
+        plt.subplot(3, 1, 1)
+        plt.plot(df['x'], label=f'Trial {i}', alpha=0.6)  # alpha for transparency
+        plt.title(f'X-axis Readings for {gesture}')
+        plt.ylabel('X-axis')
+
+        plt.subplot(3, 1, 2)
+        plt.plot(df['y'], label=f'Trial {i}', alpha=0.6)
+        plt.title(f'Y-axis Readings for {gesture}')
+        plt.ylabel('Y-axis')
+
+        plt.subplot(3, 1, 3)
+        plt.plot(df['z'], label=f'Trial {i}', alpha=0.6)
+        plt.title(f'Z-axis Readings for {gesture}')
+        plt.ylabel('Z-axis')
+        plt.xlabel('Time (samples)')
+
+    # Add legends to each subplot
     plt.subplot(3, 1, 1)
-    plt.plot(df['x'], label=f'Trial {i}', alpha=0.6)  # alpha for transparency
-    plt.title(f'X-axis Readings for {gesture_name}')
-    plt.ylabel('X-axis')
+    plt.legend(loc='upper right')
 
     plt.subplot(3, 1, 2)
-    plt.plot(df['y'], label=f'Trial {i}', alpha=0.6)
-    plt.title(f'Y-axis Readings for {gesture_name}')
-    plt.ylabel('Y-axis')
+    plt.legend(loc='upper right')
 
     plt.subplot(3, 1, 3)
-    plt.plot(df['z'], label=f'Trial {i}', alpha=0.6)
-    plt.title(f'Z-axis Readings for {gesture_name}')
-    plt.ylabel('Z-axis')
-    plt.xlabel('Time (samples)')
+    plt.legend(loc='upper right')
+
+    # Adjust layout to prevent overlap
+    plt.tight_layout()
+
+    # Show the plot
+    plt.show()
+# -----------------------------------------------------
 
 
-# Optional: Add legends to each subplot
-plt.subplot(3, 1, 1)
-plt.legend(loc='upper right')
-
-plt.subplot(3, 1, 2)
-plt.legend(loc='upper right')
-
-plt.subplot(3, 1, 3)
-plt.legend(loc='upper right')
-
-# Adjust layout to prevent overlap
-plt.tight_layout()
-
-# Show the plot
-plt.show()
-#-----------------------------------------------------
-
-
-# Assuming you have a structure for storing files such that you can loop through them
 gestures = ['point', 'raise-hand', 'dab', 'hair-swipe', 'rps']
 trial_data = []
 
+# Load in all of the calculated features for each trial and gesture and put in table
 for gesture in gestures:
     for trial_num in range(0, 10):  # Assuming 10 trials per gesture
         file_path = f'data/Johnny/{gesture}_Johnny_{trial_num}_data.csv'
