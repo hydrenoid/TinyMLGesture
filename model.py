@@ -27,8 +27,8 @@ def load_trial_data(file_path):
 # Lets look at some of the data
 # Example: Load data for each trial (adjust paths and loading logic to your data structure)
 gesture_name = 'point'
-num_trials = 3  # Adjust based on how many trials you have for this gesture
-trials_data = [pd.read_csv(f'data/Johnny/{gesture_name}_Johnny_{i}_data.csv') for i in range(2, num_trials)]
+num_trials = 10  # Adjust based on how many trials you have for this gesture
+trials_data = [pd.read_csv(f'data/Johnny/{gesture_name}_Johnny_{i}_data.csv') for i in range(0, num_trials)]
 
 # Initialize a plot
 plt.figure(figsize=(14, 8))
