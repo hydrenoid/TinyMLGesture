@@ -27,6 +27,6 @@ focused on the importance of various features, using Pandas to demonstrate featu
 
 # Setup
 This project has three main python files:]
-*  Data.py: Application that when run will record your desired gestures and trials and save them appropriately to be used for training
+*  Recording.py: Application that when run will record your desired gestures and trials and save them appropriately to be used for training
 *  Model.py: Preprocesses the data from Data.py and trains a ML model, then dumps the model so it can be used in deployment
 *  Testing.py: Uses the model generated and records gestures and attempts to classify them
